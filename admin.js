@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Configuração do Firebase corrigida (Sem a linha do storageBucket para evitar erros de CORS)
 const firebaseConfig = {
   apiKey: "AIzaSyA6Hhv9Lc6kG8FuEiVBG98KUS77zqpXkdM",
   authDomain: "eco-alert-da009.firebaseapp.com",
@@ -15,7 +14,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Trava de Segurança dinâmica baseada no tipo salvo na coleção "users"
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         try {
@@ -25,11 +23,10 @@ onAuthStateChanged(auth, async (user) => {
                 const nomeCompleto = userDoc.data().nome || user.displayName || "Admin";
                 document.getElementById('user-name').textContent = nomeCompleto.split(' ')[0];
                 
-                // EXIBE A LABEL/BLOCO DE ADMINISTRADOR
+                // Exibe a caixa/rótulo de Administrador no topo
                 const adminBadge = document.getElementById('admin-badge-container');
-                if (adminBadge) adminBadge.style.display = "block"; // ou "flex", dependendo do seu CSS
+                if (adminBadge) adminBadge.style.display = "block";
                 
-                // Carrega as denúncias
                 carregarDenunciasDoBanco();
             } else {
                 alert('Acesso restrito apenas a administradores.');
@@ -44,19 +41,17 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// Botão Sair
 document.getElementById('btn-sair').addEventListener('click', () => {
     if (confirm("Deseja realmente sair do painel administrativo?")) {
         signOut(auth).catch((error) => console.error(error));
     }
 });
 
-// 1. LISTAR: Busca todas as denúncias da coleção "complaints" e preenche a tabela e os contadores
 async function carregarDenunciasDoBanco() {
     const tbody = document.getElementById('table-body');
     if (!tbody) return;
     
-    tbody.innerHTML = ""; // Limpa os dados estáticos
+    tbody.innerHTML = "";
 
     let pendentes = 0;
     let resolvidas = 0;
@@ -77,24 +72,20 @@ async function carregarDenunciasDoBanco() {
             const dados = docSnap.data();
             const idDenuncia = docSnap.id;
 
-            // Tratamento seguro dos dados caso algum campo esteja nulo ou indefinido
             const titulo = dados.titulo || "Sem título";
             const status = dados.status || "Pendente";
             const localizacao = dados.localizacao || "Não informada";
             const data = dados.dataEnvio || "---";
 
-            // Calcula a soma dos contadores para os círculos do topo
             const statusNormalizado = status.trim().toLowerCase();
             if (statusNormalizado === "pendente") pendentes++;
             else if (statusNormalizado === "resolvida") resolvidas++;
             else if (statusNormalizado === "em análise" || statusNormalizado === "em analise") analise++;
 
-            // Cria a linha na tabela adicionando o id de controle e cursor pointer
             const tr = document.createElement('tr');
             tr.setAttribute('data-id', idDenuncia);
             tr.style.cursor = "pointer";
 
-            // Renderiza APENAS as 4 colunas tradicionais (Exatamente igual ao Dashboard da direita)
             tr.innerHTML = `
                 <td>${titulo}</td>
                 <td class="complaint-status">${status}</td>
@@ -104,7 +95,6 @@ async function carregarDenunciasDoBanco() {
             tbody.appendChild(tr);
         });
 
-        // Atualiza os círculos de contadores da interface com os dados reais
         document.getElementById("qtd-pendentes").textContent = pendentes;
         document.getElementById("qtd-resolvidas").textContent = resolvidas;
         document.getElementById("qtd-analise").textContent = analise;
@@ -115,7 +105,6 @@ async function carregarDenunciasDoBanco() {
     }
 }
 
-// 2. REDIRECIONAMENTO: Clicar em qualquer linha te leva para a tela de Detalhes
 document.getElementById('table-body').addEventListener('click', (e) => {
     const linhaClicada = e.target.closest('tr');
     

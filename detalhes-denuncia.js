@@ -48,7 +48,6 @@ async function carregarDetalhesDenuncia() {
         if (docSnap.exists()) {
             const dados = docSnap.data();
 
-            // Preenche o input do Título corretamente
             document.getElementById('titulo').value = dados.titulo || "Sem título";
             document.getElementById('localizacao').value = dados.localizacao || "";
             document.getElementById('descricao').value = dados.descricao || "";
@@ -56,12 +55,6 @@ async function carregarDetalhesDenuncia() {
             const statusSpan = document.getElementById('denuncia-status');
             if (statusSpan) {
                 statusSpan.textContent = dados.status || "Pendente";
-            }
-            
-            const imgContainer = document.getElementById('denuncia-img-container');
-            if (imgContainer) {
-                const linkImagem = dados.imageUrl || dados.imagem || "https://cdn-icons-png.flaticon.com/512/2652/2652218.png";
-                imgContainer.innerHTML = `<img src="${linkImagem}" alt="Foto da Ocorrência" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">`;
             }
         } else {
             alert("Denúncia não encontrada no sistema.");
@@ -72,7 +65,6 @@ async function carregarDetalhesDenuncia() {
     }
 }
 
-// SEGURANÇA: Libera edição apenas para Administradores
 async function verificarPermissaoAdmin(uid) {
     try {
         const userDoc = await getDoc(doc(db, "users", uid));
@@ -83,7 +75,6 @@ async function verificarPermissaoAdmin(uid) {
         } else {
             if (actionsGroup) actionsGroup.style.display = "none";
             
-            // Trava todos os campos para usuários normais
             document.getElementById('titulo').setAttribute('readonly', true);
             document.getElementById('localizacao').setAttribute('readonly', true);
             document.getElementById('descricao').setAttribute('readonly', true);
@@ -111,7 +102,6 @@ document.getElementById('btn-excluir').addEventListener('click', async () => {
     }
 });
 
-// AÇÃO DE EDITAR: Agora destrava o Título, Localização, Descrição e Status simultaneamente
 const btnEditar = document.getElementById('btn-editar');
 if (btnEditar) {
     btnEditar.addEventListener('click', async () => {
@@ -123,7 +113,7 @@ if (btnEditar) {
         if (btnEditar.textContent === "EDITAR") {
             const statusAtual = statusSpan.textContent;
             statusSpan.innerHTML = `
-                <select id="status-select" class="form-control" style="padding: 5px; font-size: 14px; font-weight: bold;">
+                <select id="status-select" class="form-control" style="padding: 5px; font-size: 14px; font-weight: bold; width: 100%;">
                     <option value="Pendente" ${statusAtual === 'Pendente' ? 'selected' : ''}>Pendente</option>
                     <option value="Em análise" ${statusAtual === 'Em análise' ? 'selected' : ''}>Em análise</option>
                     <option value="Resolvida" ${statusAtual === 'Resolvida' ? 'selected' : ''}>Resolvida</option>
@@ -143,7 +133,6 @@ if (btnEditar) {
 
                 const novoStatus = document.getElementById('status-select').value;
 
-                // Atualiza o título, localização, descrição e status no banco
                 await updateDoc(doc(db, "complaints", idDenuncia), {
                     titulo: tituloInput.value,
                     localizacao: localizacaoInput.value,

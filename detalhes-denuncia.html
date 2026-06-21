@@ -19,46 +19,41 @@
             <a href="minhas-denuncias.html" class="nav-btn">MINHAS DENÚNCIAS</a>
         </nav>
         <div class="nav-user">
-    <span id="user-name">Carregando...</span>
-    <button id="btn-sair" class="logout-btn">SAIR</button>
-</div>
+            <span id="user-name">Carregando...</span>
+            <button id="btn-sair" class="logout-btn">SAIR</button>
+        </div>
     </header>
 
     <main class="detalhes-container">
         <div class="detalhes-card">
-            <h2 id="denuncia-titulo"></h2>
+            <h2>Detalhes da Ocorrência</h2>
             
-            <div class="grid-detalhes">
-                <div class="col-esquerda">
-                    <div class="img-placeholder" id="denuncia-img-container">
-                        <span></span>
-                    </div>
+            <div class="grid-detalhes-sem-imagem" style="display: flex; gap: 30px;">
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
                     
-                    <div class="status-box">
-                        <div class="status-header">Status</div>
-                        <div class="status-value" id="denuncia-status"></div>
-                    </div>
-                </div>
-
-                <div class="col-direita">
                     <div class="info-group">
-                        <label for="titulo" style="font-size: 12px; color: #555; font-weight: bold;">Título</label>
-                        <input type="text" id="titulo" readonly placeholder="Título da denúncia">
+                        <label for="titulo" style="font-size: 12px; color: #555; font-weight: bold; display: block; margin-bottom: 5px;">Título</label>
+                        <input type="text" id="titulo" readonly placeholder="Título da denúncia" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
                     </div>
 
                     <div class="info-group">
-                        <label for="localizacao" style="font-size: 12px; color: #555; font-weight: bold;">Localização</label>
-                        <input type="text" id="localizacao" readonly placeholder="Localização">
+                        <label for="localizacao" style="font-size: 12px; color: #555; font-weight: bold; display: block; margin-bottom: 5px;">Localização</label>
+                        <input type="text" id="localizacao" readonly placeholder="Localização" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
                     </div>
                     
                     <div class="info-group">
-                        <label for="descricao" style="font-size: 12px; color: #555; font-weight: bold;">Descrição</label>
-                        <textarea id="descricao" readonly placeholder="Descrição" rows="4"></textarea>
+                        <label for="descricao" style="font-size: 12px; color: #555; font-weight: bold; display: block; margin-bottom: 5px;">Descrição</label>
+                        <textarea id="descricao" readonly placeholder="Descrição" rows="4" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: none;"></textarea>
                     </div>
 
-                    <div class="actions-group" style="display: none;">
-                        <button id="btn-editar" class="btn-action">EDITAR</button>
-                        <button id="btn-excluir" class="btn-action">EXCLUIR</button>
+                    <div class="status-box" style="background: #e9ecef; padding: 15px; border-radius: 8px; border: 1px solid #ccc;">
+                        <div class="status-header" style="font-size: 12px; color: #555; font-weight: bold;">Status Atual</div>
+                        <div class="status-value" id="denuncia-status" style="font-size: 16px; font-weight: bold; margin-top: 5px;">Pendente</div>
+                    </div>
+
+                    <div class="actions-group" style="display: none; gap: 10px;">
+                        <button id="btn-editar" class="btn-action" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">EDITAR</button>
+                        <button id="btn-excluir" class="btn-action" style="padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">EXCLUIR</button>
                     </div>
                 </div>
             </div>
