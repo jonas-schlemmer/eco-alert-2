@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoAlert - Nova Denúncia</title>
+    <link rel="stylesheet" href="nova-denuncia.css">
+    <link rel="shortcut icon" href="logo.avif">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-logo">
+            <h1>EcoAlert</h1>
+        </div>
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-btn">DASHBOARD</a>
+            <a href="nova-denuncia.html" class="nav-btn active">NOVA DENÚNCIA</a>
+            <a href="minhas-denuncias.html" class="nav-btn">MINHAS DENÚNCIAS</a>
+        </nav>
+        <div class="nav-user">
+    <span id="user-name">Carregando...</span>
+    <button id="btn-sair" class="logout-btn">SAIR</button>
+</div>
+    </header>
+
+    <main class="form-container">
+        <div class="denuncia-card">
+            <h2>Nova denúncia</h2>
+            
+            <form id="denuncia-form">
+                <div class="input-group">
+                    <input type="text" id="titulo" placeholder="Título" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="localizacao" placeholder="Localização" required>
+                </div>
+
+                <div class="file-group">
+                    <input type="text" id="file-name-placeholder" placeholder="Imagens" readonly>
+                    <label for="imagem-input" class="custom-file-btn">Selecionar Imagem</label>
+                    <input type="file" id="imagem-input" accept="image/*" required style="display: none;">
+                </div>
+
+                <div class="input-group">
+                    <textarea id="descricao" placeholder="Descrição" rows="6" required></textarea>
+                </div>
+
+                <button type="submit" id="btn-denunciar">Denunciar</button>
+            </form>
+        </div>
+    </main>
+
+    <script type="module" src="nova-denuncia.js"></script>
+</body>
+</html>

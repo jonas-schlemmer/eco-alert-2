@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoAlert - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="shortcut icon" href="logo.avif">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-logo">
+            <h1>EcoAlert</h1>
+        </div>
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-btn">DASHBOARD</a>
+            <a href="nova-denuncia.html" class="nav-btn active">NOVA DENÚNCIA</a>
+            <a href="minhas-denuncias.html" class="nav-btn">MINHAS DENÚNCIAS</a>
+        </nav>
+        <div class="nav-user">
+    <span id="user-name">Carregando...</span>
+    <button id="btn-sair" class="logout-btn">SAIR</button>
+</div>
+    </header>
+
+    <main class="dashboard-content">
+        
+        <section class="status-container">
+            <div class="status-card">
+                <div class="circle-counter" id="qtd-pendentes">0</div>
+                <div class="status-label">PENDENTES</div>
+            </div>
+            
+            <div class="status-card highlight">
+                <div class="circle-counter big" id="qtd-resolvidas">0</div>
+                <div class="status-label">RESOLVIDAS</div>
+            </div>
+            
+            <div class="status-card">
+                <div class="circle-counter" id="qtd-analise">0</div>
+                <div class="status-label">EM ANÁLISE</div>
+            </div>
+        </section>
+
+        <section class="table-container">
+            <h2>Últimas denúncias</h2>
+            <table class="denuncias-table">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Status</th>
+                        <th>Localização</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <tr>
+                        <td>Lixo em praça</td>
+                        <td>Em análise</td>
+                        <td>Ideal - Novo Hamburgo</td>
+                        <td>04/06/2026</td>
+                    </tr>
+                    <tr>
+                        <td>Queimada</td>
+                        <td>Pendente</td>
+                        <td>Ouro Branco - Novo Hamburgo</td>
+                        <td>03/06/2026</td>
+                    </tr>
+                    <tr>
+                        <td>Esgoto ao céu aberto</td>
+                        <td>Resolvida</td>
+                        <td>Centro - Campo Bom</td>
+                        <td>02/06/2026</td>
+                    </tr>
+                    <tr>
+                        <td>Descarte de entulho</td>
+                        <td>Resolvida</td>
+                        <td>Oeste - Sapiranga</td>
+                        <td>01/06/2026</td>
+                    </tr>
+                    <tr>
+                        <td>Acúmulo de lixo</td>
+                        <td>Resolvida</td>
+                        <td>São Luiz - Sapiranga</td>
+                        <td>31/05/2026</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <script type="module" src="dashboard.js"></script>
+</body>
+</html>

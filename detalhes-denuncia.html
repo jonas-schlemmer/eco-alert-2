@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoAlert - Detalhes da Denúncia</title>
+    <link rel="stylesheet" href="detalhes-denuncia.css">
+    <link rel="shortcut icon" href="logo.avif">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-logo">
+            <h1>EcoAlert</h1>
+        </div>
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-btn">DASHBOARD</a>
+            <a href="nova-denuncia.html" class="nav-btn">NOVA DENÚNCIA</a>
+            <a href="minhas-denuncias.html" class="nav-btn">MINHAS DENÚNCIAS</a>
+        </nav>
+        <div class="nav-user">
+    <span id="user-name">Carregando...</span>
+    <button id="btn-sair" class="logout-btn">SAIR</button>
+</div>
+    </header>
+
+    <main class="detalhes-container">
+        <div class="detalhes-card">
+            <h2 id="denuncia-titulo">Minha denúncia - Lixo em praça</h2>
+            
+            <div class="grid-detalhes">
+                <div class="col-esquerda">
+                    <div class="img-placeholder" id="denuncia-img-container">
+                        <span>[FOTO]</span>
+                    </div>
+                    
+                    <div class="status-box">
+                        <div class="status-header">Status</div>
+                        <div class="status-value" id="denuncia-status">Em análise</div>
+                    </div>
+                </div>
+
+                <div class="col-direita">
+                    <div class="info-group">
+                        <input type="text" id="localizacao" value="Ideal - Novo Hamburgo" readonly placeholder="Localização">
+                    </div>
+                    
+                    <div class="info-group">
+                        <textarea id="descricao" readonly placeholder="Descrição" rows="6">Moradores relatam descarte irregular de resíduos na praça central do bairro.</textarea>
+                    </div>
+
+                    <div class="actions-group">
+                        <button id="btn-editar" class="btn-action">EDITAR</button>
+                        <button id="btn-excluir" class="btn-action">EXCLUIR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="detalhes-denuncia.js"></script>
+</body>
+</html>

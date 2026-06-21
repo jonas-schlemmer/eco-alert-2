@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoAlert</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="logo.avif">
+</head>
+<body>
+
+    <main class="login-container">
+        <div class="login-card">
+            
+            <div class="card-header">
+                <div class="logo-placeholder" id="logo-container">
+                    <img src="logo.avif" alt="EcoAlert Logo" class="logo-img">
+                </div>
+            </div>
+
+            <div class="card-body">
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="E-mail" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="password" id="senha" placeholder="Senha" required>
+                    </div>
+
+                    <button type="submit" id="btn-entrar">Entrar</button>
+                </form>
+
+                <p class="signup-text">
+                    Não possui uma conta? <a href="cadastro.html">Cadastre-se</a>
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

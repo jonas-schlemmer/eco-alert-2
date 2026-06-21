@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoAlert - Gerenciamento de Usuários</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="shortcut icon" href="logo.avif">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-logo">
+            <h1>EcoAlert</h1>
+        </div>
+        <nav class="nav-menu">
+            <a href="admin.html" class="nav-btn">GERENCIAR DENÚNCIAS</a>
+            <a href="gerenciar-usuarios.html" class="nav-btn active">GERENCIAR USUÁRIOS</a>
+            <a href="#" class="nav-btn">RELATÓRIOS</a>
+        </nav>
+        <div class="nav-user">
+    <span id="user-name">Carregando...</span>
+    <button id="btn-sair" class="logout-btn">SAIR</button>
+</div>
+    </header>
+
+    <div class="admin-badge-container">
+        <div class="admin-badge">ADMINISTRADOR</div>
+    </div>
+
+    <main class="dashboard-content">
+        <section class="table-container" style="max-width: 1100px; margin-top: 20px;">
+            <h2>Gerenciamento de Usuários</h2>
+            
+            <table class="denuncias-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Tipo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="usuarios-table-body"></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script type="module" src="gerenciar-usuarios.js"></script>
+</body>
+</html>

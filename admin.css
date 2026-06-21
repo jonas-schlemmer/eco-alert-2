@@ -1,0 +1,181 @@
+/* Configurações básicas e Navbar reaproveitadas das telas anteriores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+}
+
+.navbar {
+    background-color: #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.nav-logo h1 {
+    background-color: #ffffff;
+    padding: 8px 24px;
+    font-size: 28px;
+    font-weight: 400;
+    border-radius: 4px;
+}
+
+.nav-menu { display: flex; gap: 30px; }
+.nav-btn {
+    background-color: #ffffff;
+    color: #000000;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+.nav-btn.active { box-shadow: inset 0 2px 4px rgba(0,0,0,0.15); }
+
+.nav-user { display: flex; align-items: center; gap: 15px; }
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* --- TAG ADMINISTRADOR LATERAL --- */
+.admin-badge-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 40px 0 0;
+}
+
+.admin-badge {
+    background-color: #cbd5e1; /* Tom cinza médio da imagem */
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+/* --- CONTEÚDO E ELEMENTOS GRÁFICOS --- */
+.dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px 40px 20px;
+}
+
+.status-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    margin-bottom: 40px;
+}
+
+.status-card { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+.circle-counter {
+    width: 120px;
+    height: 120px;
+    background-color: #d1d5db;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #000000;
+}
+.circle-counter.big { width: 150px; height: 150px; font-size: 22px; }
+
+.status-label {
+    background-color: #ffffff;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px solid #e5e7eb;
+}
+
+/* --- LISTAGEM DE GERENCIAMENTO --- */
+.table-container { max-width: 1000px; margin: 0 auto; }
+.table-container h2 { font-size: 16px; margin-bottom: 12px; }
+
+.denuncias-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.denuncias-table th, .denuncias-table td {
+    border: 1px solid #9ca3af;
+    padding: 12px;
+    text-align: center;
+}
+
+.denuncias-table th { background-color: #f3f4f6; font-weight: bold; }
+
+.action-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 6px;
+}
+.action-btn:hover { transform: scale(1.15); }
+
+.denuncias-table td {
+    background-color: #ffffff;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 8px;
+    transition: transform 0.1s;
+}
+
+.action-btn:hover {
+    transform: scale(1.2);
+}
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaçamento entre o Nome, Botão Sair e a Foto */
+}
+
+#user-name {
+    font-weight: 500;
+}
+
+.logout-btn {
+    background-color: #ffffff;
+    color: #dc2626; /* Cor vermelha suave para indicar saída/ação destrutiva */
+    border: 1px solid #dc2626;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #dc2626;
+    color: #ffffff;
+}
