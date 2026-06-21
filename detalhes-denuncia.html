@@ -26,30 +26,37 @@
 
     <main class="detalhes-container">
         <div class="detalhes-card">
-            <h2 id="denuncia-titulo">Minha denúncia - Lixo em praça</h2>
+            <h2 id="denuncia-titulo"></h2>
             
             <div class="grid-detalhes">
                 <div class="col-esquerda">
                     <div class="img-placeholder" id="denuncia-img-container">
-                        <span>[FOTO]</span>
+                        <span></span>
                     </div>
                     
                     <div class="status-box">
                         <div class="status-header">Status</div>
-                        <div class="status-value" id="denuncia-status">Em análise</div>
+                        <div class="status-value" id="denuncia-status"></div>
                     </div>
                 </div>
 
                 <div class="col-direita">
                     <div class="info-group">
-                        <input type="text" id="localizacao" value="Ideal - Novo Hamburgo" readonly placeholder="Localização">
+                        <label for="titulo" style="font-size: 12px; color: #555; font-weight: bold;">Título</label>
+                        <input type="text" id="titulo" readonly placeholder="Título da denúncia">
+                    </div>
+
+                    <div class="info-group">
+                        <label for="localizacao" style="font-size: 12px; color: #555; font-weight: bold;">Localização</label>
+                        <input type="text" id="localizacao" readonly placeholder="Localização">
                     </div>
                     
                     <div class="info-group">
-                        <textarea id="descricao" readonly placeholder="Descrição" rows="6">Moradores relatam descarte irregular de resíduos na praça central do bairro.</textarea>
+                        <label for="descricao" style="font-size: 12px; color: #555; font-weight: bold;">Descrição</label>
+                        <textarea id="descricao" readonly placeholder="Descrição" rows="4"></textarea>
                     </div>
 
-                    <div class="actions-group">
+                    <div class="actions-group" style="display: none;">
                         <button id="btn-editar" class="btn-action">EDITAR</button>
                         <button id="btn-excluir" class="btn-action">EXCLUIR</button>
                     </div>

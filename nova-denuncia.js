@@ -1,28 +1,33 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA6Hhv9Lc6kG8FuEiVBG98KUS77zqpXkdM",
-  authDomain: "eco-alert-da009.firebaseapp.com",
-  projectId: "eco-alert-da009",
-  storageBucket: "eco-alert-da009.firebasestorage.app",
-  messagingSenderId: "892507065780",
-  appId: "1:892507065780:web:e572b98be15733a21036e1"
+    apiKey: "AIzaSyA6Hhv9Lc6kG8FuEiVBG98KUS77zqpXkdM",
+    authDomain: "eco-alert-da009.firebaseapp.com",
+    projectId: "eco-alert-da009",
+    messagingSenderId: "892507065780",
+    appId: "1:892507065780:web:e572b98be15733a21036e1"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const storage = getStorage(app);
+const db = getFirestore(app);
+
+// Cole aqui a chave de API que você pegou no site do Imgbb
+const IMGBB_API_KEY = "6bf36b302bed6f475b5c7162d3c548d0";
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
         const nomeCompleto = user.displayName || user.email.split('@')[0];
-        const primeiroNome = nomeCompleto.split(' ')[0];
-        document.getElementById('user-name').textContent = primeiroNome;
+        document.getElementById('user-name').textContent = nomeCompleto.split(' ')[0];
     } else {
-        window.location.href = "index.html";
+        setTimeout(() => {
+            if (!auth.currentUser) {
+                alert("Sessão expirada ou usuário não conectado.");
+                window.location.href = "index.html";
+            }
+        }, 1500);
     }
 });
 
@@ -34,47 +39,67 @@ document.getElementById('btn-sair').addEventListener('click', () => {
 
 const imagemInput = document.getElementById('imagem-input');
 const filePlaceholder = document.getElementById('file-name-placeholder');
+const denunciaForm = document.getElementById('denuncia-form');
+const btnDenunciar = document.getElementById('btn-denunciar');
 
 imagemInput.addEventListener('change', (e) => {
-    if(e.target.files.length > 0) {
+    if (e.target.files.length > 0) {
         filePlaceholder.value = e.target.files[0].name;
     }
 });
 
-const denunciaForm = document.getElementById('denuncia-form');
-const btnDenunciar = document.getElementById('btn-denunciar');
-
 denunciaForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const file = imagemInput.files[0];
-    if(!file) return alert("Por favor, selecione uma imagem.");
+    
+    if (!file) {
+        alert("Por favor, selecione ou tire uma foto da ocorrência.");
+        return; 
+    }
 
     try {
         btnDenunciar.disabled = true;
         btnDenunciar.textContent = "Enviando...";
 
-        const fileExtension = file.name.split('.').pop();
-        const caminhoStorage = `denuncias/${Date.now()}_denuncia.${fileExtension}`;
-        const storageRef = ref(storage, caminhoStorage);
+        // 1. Prepara o arquivo para o envio externo via FormData
+        const formData = new FormData();
+        formData.append("image", file);
 
-        const snapshot = await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
+        // 2. Faz o upload para a API gratuita do Imgbb
+        const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+            method: "POST",
+            body: formData
+        });
 
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error("Falha ao subir imagem no servidor externo.");
+        }
+
+        // URL permanente gerada pelo Imgbb
+        const downloadURL = result.data.url;
+
+        // 3. Monta o objeto estruturado salvando o link do Imgbb no Firestore
         const dadosDenuncia = {
             titulo: document.getElementById('titulo').value,
             localizacao: document.getElementById('localizacao').value,
             descricao: document.getElementById('descricao').value,
-            imageUrl: downloadURL,
+            imageUrl: downloadURL, 
             dataEnvio: new Date().toLocaleDateString('pt-BR'),
-            status: "Pendente"
+            status: "Pendente",
+            userId: auth.currentUser ? auth.currentUser.uid : "anonimo"
         };
 
-        console.log("Denúncia criada:", dadosDenuncia);
+        // 4. Salva os dados no banco de dados gratuito do Firebase
+        await addDoc(collection(db, "complaints"), dadosDenuncia);
+
         alert("Denúncia registrada com sucesso!");
         window.location.href = "dashboard.html";
+        
     } catch (error) {
-        console.error("Erro:", error);
-        alert("Falha ao registrar denúncia.");
+        console.error("Erro detectado durante o envio:", error);
+        alert("Falha ao registrar denúncia. Verifique o console.");
     } finally {
         btnDenunciar.disabled = false;
         btnDenunciar.textContent = "Denunciar";
