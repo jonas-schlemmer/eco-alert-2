@@ -65,7 +65,7 @@ denunciaForm.addEventListener('submit', async (e) => {
 
         alert("Denúncia registrada com sucesso!");
         denunciaForm.reset();
-        window.location.href = "minhas-denuncias.html"; // Redireciona para onde lista as denúncias do usuário
+        window.location.href = "dashboard.html"; // Redireciona para onde lista as denúncias do usuário
         
     } catch (error) {
         console.error("Erro ao salvar denúncia:", error);
