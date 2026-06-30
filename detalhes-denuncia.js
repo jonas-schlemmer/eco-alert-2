@@ -69,23 +69,37 @@ async function verificarPermissaoAdmin(uid) {
     try {
         const userDoc = await getDoc(doc(db, "users", uid));
         const actionsGroup = document.querySelector('.actions-group');
-        
+
+        // Os botões de ação ficam visíveis para todos
+        if (actionsGroup) actionsGroup.style.display = "flex";
+
+        // Os campos da denúncia podem ser editados pelo usuário
+        document.getElementById('titulo').setAttribute('readonly', true);
+        document.getElementById('localizacao').setAttribute('readonly', true);
+        document.getElementById('descricao').setAttribute('readonly', true);
+
+        const statusSelect = document.getElementById('status-select');
+
+        // Apenas administradores podem alterar o status
         if (userDoc.exists() && userDoc.data().tipo === 'Administrador') {
-            if (actionsGroup) actionsGroup.style.display = "flex";
+            if (statusSelect) statusSelect.disabled = false;
         } else {
-            if (actionsGroup) actionsGroup.style.display = "none";
-            
-            document.getElementById('titulo').setAttribute('readonly', true);
-            document.getElementById('localizacao').setAttribute('readonly', true);
-            document.getElementById('descricao').setAttribute('readonly', true);
-            
-            const statusSelect = document.getElementById('status-select');
             if (statusSelect) statusSelect.disabled = true;
         }
+
     } catch (error) {
         console.error("Erro ao verificar permissões:", error);
+
+        // Em caso de erro, ainda permite editar a denúncia
         const actionsGroup = document.querySelector('.actions-group');
-        if (actionsGroup) actionsGroup.style.display = "none";
+        if (actionsGroup) actionsGroup.style.display = "flex";
+
+        document.getElementById('titulo').setAttribute('readonly', true);
+        document.getElementById('localizacao').setAttribute('readonly', true);
+        document.getElementById('descricao').setAttribute('readonly', true);
+
+        const statusSelect = document.getElementById('status-select');
+        if (statusSelect) statusSelect.disabled = true;
     }
 }
 
@@ -101,60 +115,88 @@ document.getElementById('btn-excluir').addEventListener('click', async () => {
         }
     }
 });
-
 const btnEditar = document.getElementById('btn-editar');
+
 if (btnEditar) {
     btnEditar.addEventListener('click', async () => {
+
         const tituloInput = document.getElementById('titulo');
         const localizacaoInput = document.getElementById('localizacao');
         const descricaoInput = document.getElementById('descricao');
         const statusSpan = document.getElementById('denuncia-status');
-        
+
+        // Descobre se o usuário é administrador
+        const usuarioAtual = auth.currentUser;
+        const userDoc = await getDoc(doc(db, "users", usuarioAtual.uid));
+        const ehAdministrador = userDoc.exists() && userDoc.data().tipo === "Administrador";
+
         if (btnEditar.textContent === "EDITAR") {
-            const statusAtual = statusSpan.textContent;
-            statusSpan.innerHTML = `
-                <select id="status-select" class="form-control" style="padding: 5px; font-size: 14px; font-weight: bold; width: 100%;">
-                    <option value="Pendente" ${statusAtual === 'Pendente' ? 'selected' : ''}>Pendente</option>
-                    <option value="Em análise" ${statusAtual === 'Em análise' ? 'selected' : ''}>Em análise</option>
-                    <option value="Resolvida" ${statusAtual === 'Resolvida' ? 'selected' : ''}>Resolvida</option>
-                </select>
-            `;
+
+            // Apenas administradores podem editar o status
+            if (ehAdministrador) {
+
+                const statusAtual = statusSpan.textContent;
+
+                statusSpan.innerHTML = `
+                    <select id="status-select" class="form-control" style="padding:5px;font-size:14px;font-weight:bold;width:100%;">
+                        <option value="Pendente" ${statusAtual === 'Pendente' ? 'selected' : ''}>Pendente</option>
+                        <option value="Em análise" ${statusAtual === 'Em análise' ? 'selected' : ''}>Em análise</option>
+                        <option value="Resolvida" ${statusAtual === 'Resolvida' ? 'selected' : ''}>Resolvida</option>
+                    </select>
+                `;
+            }
 
             tituloInput.removeAttribute('readonly');
             localizacaoInput.removeAttribute('readonly');
             descricaoInput.removeAttribute('readonly');
-            
+
             btnEditar.textContent = "SALVAR ALTERAÇÕES";
             tituloInput.focus();
+
         } else {
+
             try {
+
                 btnEditar.disabled = true;
                 btnEditar.textContent = "Salvando...";
 
-                const novoStatus = document.getElementById('status-select').value;
-
-                await updateDoc(doc(db, "complaints", idDenuncia), {
+                const dadosAtualizados = {
                     titulo: tituloInput.value,
                     localizacao: localizacaoInput.value,
-                    descricao: descricaoInput.value,
-                    status: novoStatus
-                });
+                    descricao: descricaoInput.value
+                };
+
+                // Apenas administrador salva alteração de status
+                if (ehAdministrador) {
+                    dadosAtualizados.status = document.getElementById('status-select').value;
+                }
+
+                await updateDoc(doc(db, "complaints", idDenuncia), dadosAtualizados);
 
                 tituloInput.setAttribute('readonly', true);
                 localizacaoInput.setAttribute('readonly', true);
                 descricaoInput.setAttribute('readonly', true);
-                
-                statusSpan.textContent = novoStatus;
+
+                if (ehAdministrador) {
+                    statusSpan.textContent = dadosAtualizados.status;
+                }
 
                 btnEditar.textContent = "EDITAR";
+
                 alert("Alterações salvas com sucesso!");
+
             } catch (error) {
+
                 console.error("Erro ao atualizar denúncia:", error);
                 alert("Falha ao salvar as modificações.");
                 btnEditar.textContent = "SALVAR ALTERAÇÕES";
+
             } finally {
+
                 btnEditar.disabled = false;
+
             }
         }
+
     });
 }

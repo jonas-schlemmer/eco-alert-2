@@ -37,7 +37,6 @@ loginForm.addEventListener('submit', async (e) => {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         
         if (userDoc.exists() && userDoc.data().tipo === 'Administrador') {
-            alert('Login administrativo realizado!');
             window.location.href = 'admin.html';
         } else {
             alert('Login realizado com sucesso!');
